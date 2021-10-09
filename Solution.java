@@ -3,29 +3,30 @@ import java.util.regex.*;
 
 public class Solution{
 
-	String [] endingStatement (Scanner toolInput,
-				String exitStatement, String exitStatement2,
-				String homeStatus, String modeStatus) {
+	String [] endingStatement (Scanner toolInput) {
 
-		String[] endingReturn= new String [4];
+		String homeStatus="on";
+		String modeStatus="on";
+
+		String[] endingReturn= new String [2];
 		boolean outerLoop=true;
 		while(outerLoop){
-			endingReturn[0]=exitStatement;; endingReturn[1]=exitStatement2; endingReturn[2]=homeStatus;
-			endingReturn[3]=modeStatus;
+			String exitStatement="";
+			String exitStatement2="";
 			System.out.println("Apakah ingin mengakhiri aplikasi ? (Y/N)");
 
-			while(endingReturn[0].equals("")) endingReturn[0] = toolInput.nextLine();
-			if (endingReturn[0].equals("Y")) {
-				endingReturn[2]="off"; endingReturn[3]="off"; outerLoop=false;
+			while(exitStatement.equals("")) exitStatement = toolInput.nextLine();
+			if (exitStatement.equals("Y")) {
+				homeStatus="off"; modeStatus="off"; outerLoop=false;
 			}
-			else if (endingReturn[0].equals("N")) {
+			else if (exitStatement.equals("N")) {
 				while(true){
-					endingReturn[1]=exitStatement2;
+					exitStatement2="";
 					System.out.println("Apakah ingin kembali ke home atau hitung lagi pada mode yang sama ? (home/hitung)");
-					while(endingReturn[1].equals("")) endingReturn[1]= toolInput.nextLine();
-					if (endingReturn[1].equals("home")) {
-						endingReturn[3]="off"; outerLoop=false; break;
-					} else if (endingReturn[1].equals("hitung")) {
+					while(exitStatement2.equals("")) exitStatement2= toolInput.nextLine();
+					if (exitStatement2.equals("home")) {
+						modeStatus="off"; outerLoop=false; break;
+					} else if (exitStatement2.equals("hitung")) {
 							outerLoop=false;
 							break; 
 						}
@@ -42,14 +43,17 @@ public class Solution{
 				System.out.println("======================================");
 			}
 		}
+		endingReturn[0]=homeStatus; endingReturn[1]=modeStatus;
 		return endingReturn;
 	}
 
-	 String countLetter (Scanner toolInput, String modeStatus, String homeStatus,
-			String input, String exitStatement, String exitStatement2) {
+	 String countLetter (Scanner toolInput) {
+		String input = "";
+		String homeStatus="on";
+		String modeStatus="on";
 
 		while(modeStatus.equals("on")){
-			input=""; exitStatement=""; exitStatement2="";
+			input="";
 
 			System.out.println("Selamat datang di mode 1");
 			System.out.println("Masukkan kalimat yang ingin dihitung hurufnya : ");
@@ -60,36 +64,36 @@ public class Solution{
 			for (String subInput:inputSplit) totalLetter+=subInput.length();
 			System.out.println("Jumlah huruf : " + totalLetter);
 			
-			String [] endingVar = endingStatement(toolInput, exitStatement, 
-							exitStatement2, homeStatus, modeStatus);
-			exitStatement = endingVar[0]; exitStatement2 = endingVar[1]; homeStatus = endingVar[2];
-			modeStatus = endingVar[3];
+			String [] endingVar = endingStatement(toolInput);
+			homeStatus = endingVar[0]; modeStatus = endingVar[1];
 		}
 		return homeStatus;
 	}
 
-	String countWord (Scanner toolInput, String modeStatus, String homeStatus,
-			String input, String exitStatement, String exitStatement2) {
+	String countWord (Scanner toolInput) {
+		String input = "";
+		String homeStatus="on";
+		String modeStatus="on";
 		while(modeStatus.equals("on")){
-			input=""; exitStatement=""; exitStatement2="";
+			input="";
 	
 			System.out.println("Selamat datang di mode 2");
 			System.out.println("Masukkan kalimat yang ingin dihitung jumlah katanya : ");
 			while (input.equals("")) input = toolInput.nextLine();
 			System.out.println("Jumlah kata : " + input.split(" ").length);
 	
-			String [] endingVar = endingStatement(toolInput, exitStatement, 
-									exitStatement2, homeStatus, modeStatus);
-			exitStatement = endingVar[0]; exitStatement2 = endingVar[1]; homeStatus = endingVar[2];
-			modeStatus = endingVar[3];
+			String [] endingVar = endingStatement(toolInput);
+			homeStatus = endingVar[0]; modeStatus = endingVar[1];
 		}
 		return homeStatus;
 	}
 	
-	String countVowels(Scanner toolInput, String modeStatus, String homeStatus,
-			String input, String exitStatement, String exitStatement2) {
+	String countVowels(Scanner toolInput) {
+		String input = "";
+		String homeStatus="on";
+		String modeStatus="on";
 		while(modeStatus.equals("on")){
-			input=""; exitStatement=""; exitStatement2="";
+			input="";
 
 			System.out.println("Selamat datang di mode 2");
 			System.out.println("Masukkan kalimat yang ingin dihitung jumlah huruf vokalnya : ");
@@ -101,10 +105,8 @@ public class Solution{
 			while(matcher.find()) ++totalVowels;
 			System.out.println("Jumlah huruf vokal : " + totalVowels);
 
-			String [] endingVar = endingStatement(toolInput, exitStatement, 
-			exitStatement2, homeStatus, modeStatus);
-			exitStatement = endingVar[0]; exitStatement2 = endingVar[1]; homeStatus = endingVar[2];
-			modeStatus = endingVar[3];
+			String [] endingVar = endingStatement(toolInput);
+			homeStatus = endingVar[0]; modeStatus = endingVar[1];
 		}
 		return homeStatus;
 	}
@@ -117,10 +119,6 @@ public class Solution{
 		
 		while (homeStatus.equals("on")) {
 			String mode="0";
-			String modeStatus = "on";
-			String input="";
-			String exitStatement="";
-			String exitStatement2="";
 
 			System.out.println("Silahkan masukkan mode perhitungan : ");
 			System.out.printf("1. Jumlah huruf\n2. Jumlah kata\n3. Jumlah huruf vokal\n");
@@ -138,16 +136,13 @@ public class Solution{
 
 			switch (mode){
 				case "1" :
-					homeStatus= solution.countLetter( toolInput, modeStatus, homeStatus, 
-													input, exitStatement, exitStatement2);
+					homeStatus= solution.countLetter(toolInput);
 					break;
 				case "2" :
-					homeStatus= solution.countWord( toolInput, modeStatus, homeStatus, 
-													input, exitStatement, exitStatement2);
+					homeStatus= solution.countWord(toolInput);
 					break;
 				case "3" :
-					homeStatus= solution.countVowels( toolInput, modeStatus, homeStatus, 
-													input, exitStatement, exitStatement2);
+					homeStatus= solution.countVowels(toolInput);
 					break;
 			}
 
