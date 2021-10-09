@@ -10,7 +10,7 @@ public class Solution{
 		String[] endingReturn= new String [4];
 		boolean outerLoop=true;
 		while(outerLoop){
-			endingReturn[0]=exitStatement; endingReturn[1]=exitStatement2; endingReturn[2]=homeStatus;
+			endingReturn[0]=exitStatement;; endingReturn[1]=exitStatement2; endingReturn[2]=homeStatus;
 			endingReturn[3]=modeStatus;
 			System.out.println("Apakah ingin mengakhiri aplikasi ? (Y/N)");
 
@@ -45,6 +45,70 @@ public class Solution{
 		return endingReturn;
 	}
 
+	 String countLetter (Scanner toolInput, String modeStatus, String homeStatus,
+			String input, String exitStatement, String exitStatement2) {
+
+		while(modeStatus.equals("on")){
+			input=""; exitStatement=""; exitStatement2="";
+
+			System.out.println("Selamat datang di mode 1");
+			System.out.println("Masukkan kalimat yang ingin dihitung hurufnya : ");
+			while (input.equals("")) input = toolInput.nextLine();
+			
+			String [] inputSplit  = input.split(" ");
+			int totalLetter = 0;
+			for (String subInput:inputSplit) totalLetter+=subInput.length();
+			System.out.println("Jumlah huruf : " + totalLetter);
+			
+			String [] endingVar = endingStatement(toolInput, exitStatement, 
+							exitStatement2, homeStatus, modeStatus);
+			exitStatement = endingVar[0]; exitStatement2 = endingVar[1]; homeStatus = endingVar[2];
+			modeStatus = endingVar[3];
+		}
+		return homeStatus;
+	}
+
+	String countWord (Scanner toolInput, String modeStatus, String homeStatus,
+			String input, String exitStatement, String exitStatement2) {
+		while(modeStatus.equals("on")){
+			input=""; exitStatement=""; exitStatement2="";
+	
+			System.out.println("Selamat datang di mode 2");
+			System.out.println("Masukkan kalimat yang ingin dihitung jumlah katanya : ");
+			while (input.equals("")) input = toolInput.nextLine();
+			System.out.println("Jumlah kata : " + input.split(" ").length);
+	
+			String [] endingVar = endingStatement(toolInput, exitStatement, 
+									exitStatement2, homeStatus, modeStatus);
+			exitStatement = endingVar[0]; exitStatement2 = endingVar[1]; homeStatus = endingVar[2];
+			modeStatus = endingVar[3];
+		}
+		return homeStatus;
+	}
+	
+	String countVowels(Scanner toolInput, String modeStatus, String homeStatus,
+			String input, String exitStatement, String exitStatement2) {
+		while(modeStatus.equals("on")){
+			input=""; exitStatement=""; exitStatement2="";
+
+			System.out.println("Selamat datang di mode 2");
+			System.out.println("Masukkan kalimat yang ingin dihitung jumlah huruf vokalnya : ");
+			while (input.equals("")) input = toolInput.nextLine();
+			
+			Pattern pattern  = Pattern.compile("[AIUEOaioueo]");
+			Matcher matcher  = pattern.matcher(input);
+			int totalVowels = 0;
+			while(matcher.find()) ++totalVowels;
+			System.out.println("Jumlah huruf vokal : " + totalVowels);
+
+			String [] endingVar = endingStatement(toolInput, exitStatement, 
+			exitStatement2, homeStatus, modeStatus);
+			exitStatement = endingVar[0]; exitStatement2 = endingVar[1]; homeStatus = endingVar[2];
+			modeStatus = endingVar[3];
+		}
+		return homeStatus;
+	}
+
 	public static void main(String[] args){
 		Solution solution = new Solution ();
 
@@ -52,7 +116,7 @@ public class Solution{
 		String homeStatus = "on";
 		
 		while (homeStatus.equals("on")) {
-			int mode=0;
+			String mode="0";
 			String modeStatus = "on";
 			String input="";
 			String exitStatement="";
@@ -60,66 +124,33 @@ public class Solution{
 
 			System.out.println("Silahkan masukkan mode perhitungan : ");
 			System.out.printf("1. Jumlah huruf\n2. Jumlah kata\n3. Jumlah huruf vokal\n");
-			while(mode==0) {
-				mode = toolInput.nextInt();
-				if (mode>3 || mode<0) {
+			while(Integer.parseInt(mode)==0) {
+				mode = toolInput.nextLine();
+				if (Integer.parseInt(mode)>3 || Integer.parseInt(mode)<0) {
 					System.out.println("======================================");
 					System.out.println("Pastikan pilihan anda dari 1-3.");
 					System.out.println("Silahkan masukkan kembali pilhan anda.");
 					System.out.println("======================================");
-					mode=0;
+					mode="0";
 				}
 			}
 			System.out.println("------------------------------------");
 
-			while(mode==1 && modeStatus.equals("on")){
-				input=""; exitStatement=""; exitStatement2="";
-
-				System.out.println("Selamat datang di mode 1");
-				System.out.println("Masukkan kalimat yang ingin dihitung hurufnya : ");
-				while (input.equals("")) input = toolInput.nextLine();
-				
-				String [] inputSplit  = input.split(" ");
-				int totalLetter = 0;
-				for (String subInput:inputSplit) totalLetter+=subInput.length();
-				System.out.println("Jumlah huruf : " + totalLetter);
-				
-				String [] endingVar = solution.endingStatement(toolInput, exitStatement, 
-								exitStatement2, homeStatus, modeStatus);
-				exitStatement = endingVar[0]; exitStatement2 = endingVar[1]; homeStatus = endingVar[2];
-				modeStatus = endingVar[3];
+			switch (mode){
+				case "1" :
+					homeStatus= solution.countLetter( toolInput, modeStatus, homeStatus, 
+													input, exitStatement, exitStatement2);
+					break;
+				case "2" :
+					homeStatus= solution.countWord( toolInput, modeStatus, homeStatus, 
+													input, exitStatement, exitStatement2);
+					break;
+				case "3" :
+					homeStatus= solution.countVowels( toolInput, modeStatus, homeStatus, 
+													input, exitStatement, exitStatement2);
+					break;
 			}
-			while(mode==2  && modeStatus.equals("on")){
-				input=""; exitStatement=""; exitStatement2="";
 
-				System.out.println("Selamat datang di mode 2");
-				System.out.println("Masukkan kalimat yang ingin dihitung jumlah katanya : ");
-				while (input.equals("")) input = toolInput.nextLine();
-				System.out.println("Jumlah kata : " + input.split(" ").length);
-
-				String [] endingVar = solution.endingStatement(toolInput, exitStatement, 
-								exitStatement2, homeStatus, modeStatus);
-				exitStatement = endingVar[0]; exitStatement2 = endingVar[1]; homeStatus = endingVar[2];
-				modeStatus = endingVar[3];
-			}
-			while(mode==3 && modeStatus.equals("on")){
-				input=""; exitStatement=""; exitStatement2="";
-
-				System.out.println("Selamat datang di mode 2");
-				System.out.println("Masukkan kalimat yang ingin dihitung jumlah huruf vokalnya : ");
-				while (input.equals("")) input = toolInput.nextLine();
-				
-				Pattern pattern  = Pattern.compile("[AIUEOaioueo]");
-				Matcher matcher  = pattern.matcher(input);
-				int totalVowels = 0;
-				while(matcher.find()) ++totalVowels;
-				System.out.println("Jumlah huruf vokal : " + totalVowels);
-
-				String [] endingVar = solution.endingStatement(toolInput, exitStatement, 
-				exitStatement2, homeStatus, modeStatus);
-				exitStatement = endingVar[0]; exitStatement2 = endingVar[1]; homeStatus = endingVar[2];
-				modeStatus = endingVar[3];
-			}
 		}
 		toolInput.close();		
 	}
