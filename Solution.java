@@ -10,7 +10,7 @@ public class Solution{
 		String[] endingReturn= new String [4];
 		boolean outerLoop=true;
 		while(outerLoop){
-			endingReturn[0]=exitStatement;; endingReturn[1]=exitStatement2; endingReturn[2]=homeStatus;
+			endingReturn[0]=exitStatement; endingReturn[1]=exitStatement2; endingReturn[2]=homeStatus;
 			endingReturn[3]=modeStatus;
 			System.out.println("Apakah ingin mengakhiri aplikasi ? (Y/N)");
 
